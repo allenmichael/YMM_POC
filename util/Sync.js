@@ -49,9 +49,8 @@ let yearMakeLength = 2;
 let years = [];
 let yearMakes = [];
 let yearMakeConstruct = [];
-let yearMakeModels = allYmmValuesFromData;
+let yearMakeModels = [];
 let yearMakeModelConstruct = [];
-let splitData = [];
 let constructIndexer;
 let existingYears;
 
@@ -374,46 +373,43 @@ function buildProductAttrOnProduct(attributes) {
 //Sync MZDB Internals
 
 function transformDataForMzdb() {
+  let splitDataYear;
+  let splitDataYearMake;
+  let splitDataYearMakeModel;
   return new Promise((resolve, reject) => {
     allYmmValuesFromData.forEach((ymm) => {
       console.log(ymm);
-      splitData = ymm.split(' ');
-      if (splitData.length === ymmLength) {
-        years.push(splitData[0]);
-        yearMakes.push(`${splitData[0]} ${splitData[1]}`);
+      let splitDataYear = ymm.split(' ');
+      if (splitDataYear.length === ymmLength) {
+        years.push(splitDataYear[0]);
+        yearMakes.push(`${splitDataYear[0]} ${splitDataYear[1]}`);
       }
     });
 
-    console.log(years);
-    console.log(yearMakes);
-
-    years = _.uniq(years);
+    years = _.sortBy(_.uniq(years));
     yearMakes = _.uniq(yearMakes);
 
     years.forEach((year) => {
       yearMakeConstruct.push({ year: year, makes: [] });
     });
 
-
     yearMakes.forEach((yearMake) => {
       yearMakeModelConstruct.push({ yearMake: yearMake, models: [] });
-      splitData = yearMake.split(' ');
-      if (splitData.length === yearMakeLength) {
-        constructIndexer = _.findIndex(yearMakeConstruct, { year: splitData[0] });
-        yearMakeConstruct[constructIndexer].makes.push(splitData[1]);
+      splitDataYearMake = yearMake.split(' ');
+      if (splitDataYearMake.length === yearMakeLength) {
+        constructIndexer = _.findIndex(yearMakeConstruct, { year: splitDataYearMake[0] });
+        yearMakeConstruct[constructIndexer].makes.push(splitDataYearMake[1]);
+      }
+    });
+
+    allYmmValuesFromData.forEach((yearMakeModel) => {
+      splitDataYearMakeModel = yearMakeModel.split(' ');
+      if (splitDataYearMakeModel.length === ymmLength) {
+        constructIndexer = _.findIndex(yearMakeModelConstruct, { yearMake: `${splitDataYearMakeModel[0]} ${splitDataYearMakeModel[1]}` });
+        yearMakeModelConstruct[constructIndexer].models.push(splitDataYearMakeModel[2]);
       }
     });
     console.log(yearMakeConstruct);
-    console.log(yearMakeModelConstruct);
-    yearMakeModels.forEach((yearMakeModel) => {
-      splitData = yearMakeModel.split(' ');
-      if (splitData.length === ymmLength) {
-        constructIndexer = _.findIndex(yearMakeModelConstruct, { yearMake: `${splitData[0]} ${splitData[1]}` });
-        console.log(constructIndexer);
-        yearMakeModelConstruct[constructIndexer].models.push(splitData[2]);
-      }
-    });
-
     console.log(yearMakeModelConstruct);
     resolve();
   });
@@ -423,11 +419,6 @@ function checkExistingYearList() {
   return entityResource.getEntities({ entityListFullName: entityListYear })
     .then((yearsList) => {
       existingYears = _.first(yearsList.items).years;
-      console.log("Pre-existing years...");
-      console.log(existingYears);
-      console.log("Years to add...");
-      console.log(years);
-      console.log(_.difference(years, existingYears));
     })
     .catch((err) => {
       return entityListResource.createEntityList(EntityLists.Year)
@@ -459,15 +450,14 @@ function checkExistingYearMakeModelList() {
 };
 
 function updateYearList() {
-  if (existingYears && _.difference(years, existingYears).length === 0) {
-    return undefined;
-  } else if (existingYears) {
+  if (existingYears && existingYears.length > 0) {
     years = _.uniq(years.concat(existingYears));
   }
-  let yearEntity = Entities.Year;
+  let yearEntity = {};
+  yearEntity.id = "years";
   yearEntity.years = years;
 
-  return entityResource.updateEntity({ entityListFullName: entityListYear, id: Entities.Year.id }, { body: yearEntity });
+  return entityResource.updateEntity({ entityListFullName: entityListYear, id: yearEntity.id }, { body: yearEntity });
 };
 
 function updateYearMakeList() {
@@ -477,13 +467,11 @@ function updateYearMakeList() {
       entityResource.getEntity({ entityListFullName: entityListYearMake, id: yearMake.year })
         .then((existingYearMake) => {
           console.log("Use existing");
-          if (existingYearMake && _.difference(yearMake.makes, existingYearMake.makes).length === 0) {
-            return undefined;
-          } else if (existingYearMake) {
+          if (existingYearMake && existingYearMake.makes && existingYearMake.makes.length > 0) {
             yearMake.makes = _.uniq(yearMake.makes.concat(existingYearMake.makes));
           }
 
-          let yearMakeEntity = Entities.YearMake;
+          let yearMakeEntity = {};
           yearMakeEntity.year = yearMake.year;
           yearMakeEntity.makes = yearMake.makes;
 
@@ -492,7 +480,6 @@ function updateYearMakeList() {
         .catch((err) => {
           console.log("Create a new entry...");
           return entityResource.insertEntity({ entityListFullName: entityListYearMake, id: yearMake.year }, { body: yearMake });
-
         })
     );
   });
@@ -506,17 +493,15 @@ function updateYearMakeModelList() {
       entityResource.getEntity({ entityListFullName: entityListYearMakeModel, id: yearMakeModel.yearMake })
         .then((existingYearMakeModel) => {
           console.log("Use existing");
-          if (existingYearMakeModel && _.difference(yearMakeModel.models, existingYearMakeModel.models).length === 0) {
-            return undefined;
-          } else if (existingYearMakeModel) {
+          if (existingYearMakeModel && existingYearMakeModel.models && existingYearMakeModel.models.length > 0) {
             yearMakeModel.models = _.uniq(yearMakeModel.models.concat(existingYearMakeModel.models));
           }
 
-          let yearMakeModelEntity = Entities.YearMake;
+          let yearMakeModelEntity = {};
           yearMakeModelEntity.yearMake = yearMakeModel.yearMake;
           yearMakeModelEntity.models = yearMakeModel.models;
 
-          return entityResource.updateEntity({ entityListFullName: entityListYearMake, id: yearMakeModelEntity.year }, { body: yearMakeModelEntity });
+          return entityResource.updateEntity({ entityListFullName: entityListYearMakeModel, id: yearMakeModelEntity.yearMake }, { body: yearMakeModelEntity });
         })
         .catch((err) => {
           console.log("Create a new entry...");
@@ -535,7 +520,7 @@ Sync.prototype.updateAttributeProductTypeAndProduct = function(YmmValuesFromPost
     allYmmValuesFromData = YmmValuesFromPost;
     cachedProduct = ProductDataFromPost;
     productCode = ProductDataFromPost.productCode;
-    
+
     checkExistingAttributeValuesOnAttribute()
       .then(updateProductAttribute)
       .then(retrieveProductTypeId)
@@ -553,11 +538,11 @@ Sync.prototype.updateAttributeProductTypeAndProduct = function(YmmValuesFromPost
   });
 };
 
-Sync.prototype.updateMzdb = function(YmmValuesFromPost, ProductDataFromPost) {
-  allYmmValuesFromData = allYmmValuesFromData || YmmValuesFromPost;
-  cachedProduct = cachedProduct || ProductDataFromPost;
-  productCode = productCode || ProductDataFromPost.productCode;
-  
+Sync.prototype.updateMzdb = function() {
+  // allYmmValuesFromData = allYmmValuesFromData || YmmValuesFromPost;
+  // cachedProduct = cachedProduct || ProductDataFromPost;
+  // productCode = productCode || ProductDataFromPost.productCode;
+
   transformDataForMzdb()
     .then(() => {
       return checkExistingYearList();
