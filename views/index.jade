@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  if (model)
+    input(type='hidden' value=JSON.stringify(model))
+  
+  if(product)
+    input(id='productData' type='hidden' value=JSON.stringify(product))
+    p You have selected #{product.productCode} - #{product.content.productName}
+    p #{product.content.productName} currently has the following YMM values:
+    
+    p(id='ymmData')
+    
+    label(for="sync") Ready to sync?
+    button(name="sync" type="button" id="sync") Sync
+    
+    
+    
+    
