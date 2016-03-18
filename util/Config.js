@@ -15,12 +15,12 @@ const Config = {
     "YMMCSV": {
       "ADMINNAME": "YMM-CSV",
       "ATTRIBUTECODE": "ymm-csv",
-      "ATTRIBUTEFQN": "tenant~ymm-csv"
+      "ATTRIBUTEFQN": "Grobelny~ymm-csv"
     },
     "YEARMAKEMODEL": {
       "ADMINNAME": "Year Make Model",
       "ATTRIBUTECODE": "year-make-model",
-      "ATTRIBUTEFQN": "tenant~year-make-model"
+      "ATTRIBUTEFQN": "Grobelny~year-make-model"
     }
   },
   "SUBNAVLINK": {

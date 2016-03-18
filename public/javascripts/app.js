@@ -11,16 +11,15 @@
   if (filteredProperty.length === 1 && filteredProperty[0].values.length > 0) {
     ymmValues = filteredProperty[0].values[0].content.stringValue;
     ymmValues = transformCsv(ymmValues);
-    ymmValues = _.uniq(ymmValues);
     console.log(ymmValues);
-    console.log(_);
     $('#ymmData').append('<ul>');
     ymmValues.forEach(function(value) {
       $('#ymmData > ul').append('<li>' + value + '</li>');
     });
     $('#ymmData > ul > li').append('</ul>');
   } else if (filteredProperty.length === 1 && filteredProperty[0].values.length === 0) {
-    console.log('No values present.');
+    $('#ymmData').append('<p>No Year Make Model values present.</p>');
+    $('#sync').prop("disabled", true);
   }
 
   $('#sync').click(function(e) {
@@ -43,7 +42,14 @@
       eachValue.push(line.trim().split(','));
     });
     eachValue = _.flatten(eachValue);
-    eachValue = _.map(eachValue, (value) => { return value.trim(); });
-    return eachValue;
+    var filteredValues = [];
+    _.each(eachValue, (value) => {
+      if (value !== undefined && value !== '') {
+        value = value.trim();
+        value.replace(/,/, '');
+        filteredValues.push(value);
+      }
+    });
+    return _.uniq(filteredValues);
   }
 })();
