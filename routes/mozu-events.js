@@ -28,14 +28,24 @@ router.use(function(req, res, next) {
   });
 });
 
+//POST against /mozu.events/install
 router.post('/install', function(req, res, next) {
   console.log("Is Valid? " + (req.mozu.isValid ? "\u2713" : "x"));
   if (req.mozu.isValid && req.body.topic === EVENTNAMES.APPLICATIONINSTALLED) {
     res.sendStatus(200);
     console.log("Application Installed Fired...");
-  } else if(req.mozu.isValid && req.body.topic === EVENTNAMES.APPLICATIONUPGRADED) {
+  } else if (req.mozu.isValid && req.body.topic === EVENTNAMES.APPLICATIONUPGRADED) {
     res.sendStatus(200);
     console.log("Application Upgraded Fired...");
+  }
+});
+
+// POST against /mozu.events/config
+router.post('/config', function(req, res, next) {
+  if (req.mozu.isValid) {
+    res.render('config', { title: "YMM Configuration" });
+  } else {
+    res.sendStatus(403);
   }
 });
 
