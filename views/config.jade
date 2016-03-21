@@ -1,5 +1,22 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .app-container
+    .app
+      .header-actions
+        h2 [App Name]
+      .tab-container      
+        .tabs
+          a.button.tab.active(data-tab-id='infoTab', data-toggle='tab') Info
+          a.button.tab(data-tab-id='config', data-toggle='tab') Configuration
+          a.button.tab(data-tab-id='reindexMzdb', data-toggle='tab') Reindex MZDB Entity Lists
+        .tab-view
+          #infoTab.tab-section
+            include ./info.jade
+          #config.tab-section(style='display: none')
+            include ./config-form.jade
+          #reindexMzdb.tab-section(style='display: none')
+            include ./reindex-mzdb.jade
+        .branding-text Developed by Volusion, Inc. All rights reserved.
+block additionalJavascript        
+  script(src='/javascripts/config.js')

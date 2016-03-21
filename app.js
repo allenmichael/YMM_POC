@@ -5,8 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var mozu_events = require('./routes/mozu-events');
+var install_route = require('./routes/install-route');
+var subnav_route = require('./routes/subnav-route');
 var sync_ymm = require('./routes/sync-ymm');
+var reindex_mzdb = require('./routes/reindex-mzdb');
+var config_route = require('./routes/config-route');
 
 var app = express();
 
@@ -22,8 +25,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/mozu.events', mozu_events);
+app.use('/install', install_route);
+app.use('/subnav', subnav_route);
 app.use('/sync.ymm', sync_ymm);
+app.use('/reindex.mzdb', reindex_mzdb);
+app.use('/config', config_route);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -8,7 +8,6 @@ var ProductAdminResourceFactory = require('mozu-node-sdk/clients/commerce/catalo
 var CONSTANTS = require('mozu-node-sdk/constants');
 var HEADERPREFIX = CONSTANTS.headerPrefix;
 var HEADERS = CONSTANTS.headers;
-var EVENTNAMES = require('../util/event-names');
 
 /* GET /mozu.events  */
 router.get('/', function(req, res, next) {
@@ -26,27 +25,6 @@ router.use(function(req, res, next) {
       next();
     }
   });
-});
-
-//POST against /mozu.events/install
-router.post('/install', function(req, res, next) {
-  console.log("Is Valid? " + (req.mozu.isValid ? "\u2713" : "x"));
-  if (req.mozu.isValid && req.body.topic === EVENTNAMES.APPLICATIONINSTALLED) {
-    res.sendStatus(200);
-    console.log("Application Installed Fired...");
-  } else if (req.mozu.isValid && req.body.topic === EVENTNAMES.APPLICATIONUPGRADED) {
-    res.sendStatus(200);
-    console.log("Application Upgraded Fired...");
-  }
-});
-
-// POST against /mozu.events/config
-router.post('/config', function(req, res, next) {
-  if (req.mozu.isValid) {
-    res.render('config', { title: "YMM Configuration" });
-  } else {
-    res.sendStatus(403);
-  }
 });
 
 router.use(function(req, res, next) {

@@ -13,12 +13,14 @@ apiContext.plugins = [FiddlerProxy()];
 
 const entityResource = require('mozu-node-sdk/clients/platform/entityLists/entity')(apiContext);
 const entityListResource = require('mozu-node-sdk/clients/platform/entityList')(apiContext);
+const productAttributeVocabValueResource = require('mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/attributes/attributeVocabularyValue')(apiContext);
 
 //Initialized variables used with MZDB Sync
 let allYmmValuesFromData = [];
 let entityListYear = `${Config.MZDB.YEAR}@${Config.NAMESPACE}`;
 let entityListYearMake = `${Config.MZDB.YEARMAKE}@${Config.NAMESPACE}`;
 let entityListYearMakeModel = `${Config.MZDB.YEARMAKEMODEL}@${Config.NAMESPACE}`;
+let ymmAttributeFQN = Config.ATTRIBUTES.YEARMAKEMODEL.ATTRIBUTEFQN;
 let ymmLength = 3;
 let yearMakeLength = 2;
 let years = [];
@@ -169,42 +171,74 @@ function updateYearMakeModelList() {
         })
     );
   });
+  return Promise.all(promises);
 };
+
+function getAttributeVocabValues() {
+  return productAttributeVocabValueResource.getAttributeVocabularyValues({ attributeFQN: ymmAttributeFQN })
+    .then(function(collection) {
+      let ymmValues = [];
+      collection.forEach((value) => {
+        ymmValues.push(value.content.stringValue);
+      });
+      return ymmValues;
+    });
+}
+
+function deleteExistingEntityLists() {
+  let promises = [
+    entityListResource.deleteEntityList({ entityListFullName: entityListYear }),
+    entityListResource.deleteEntityList({ entityListFullName: entityListYearMake }),
+    entityListResource.deleteEntityList({ entityListFullName: entityListYearMakeModel })
+  ];
+  return Promise.all(promises)
+    .catch(() => { });
+}
 
 let MzdbIndexer = function() { };
 
 MzdbIndexer.prototype.updateMzdb = function(YmmValuesFromPost) {
   console.log("Starting MZDB Indexing Process...");
   allYmmValuesFromData = YmmValuesFromPost;
-  
-  return new Promise((resolve, reject) => {
-    transformDataForMzdb()
-      .then(() => {
-        return checkExistingYearList();
-      })
-      .then((result) => {
-        console.log(result);
-        return checkExistingYearMakeList();
-      })
-      .then((result) => {
-        return checkExistingYearMakeModelList();
-      })
-      .then((result) => {
-        console.log(result);
-        return updateYearList();
-      })
-      .then((result) => {
-        return updateYearMakeList();
-      })
-      .then(() => {
-        return updateYearMakeModelList();
-      })
-      .then(resolve())
-      .catch((err) => {
-        console.error(err);
-        reject(err);
-      });
-  });
+  return transformDataForMzdb()
+    .then(() => {
+      return checkExistingYearList();
+    })
+    .then((result) => {
+      console.log(result);
+      return checkExistingYearMakeList();
+    })
+    .then((result) => {
+      return checkExistingYearMakeModelList();
+    })
+    .then((result) => {
+      console.log(result);
+      return updateYearList();
+    })
+    .then((result) => {
+      return updateYearMakeList();
+    })
+    .then(() => {
+      return updateYearMakeModelList();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
+
+MzdbIndexer.prototype.reindex = function() {
+  let ymmValues;
+  return getAttributeVocabValues()
+    .then((attribValues) => {
+      ymmValues = attribValues;
+      return deleteExistingEntityLists();
+    })
+    .then(() => {
+      return MzdbIndexer.prototype.updateMzdb(ymmValues);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
 
 module.exports = new MzdbIndexer();

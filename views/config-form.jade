@@ -1,0 +1,58 @@
+.row
+  .tab-first-column
+    .attributes-config
+      h2 Attributes Configuration
+      .attribute-row
+        h3 Year Make Model Attribute
+        .row
+          label.attribute-label(for="ymmAttrAdminName") Year Make Model Attribute Admin Name:
+          input.attribute-input(data-mz-attribute='ymmAttrAdminName' name='ymmAttrAdminName')
+        .row
+          label.attribute-label(for="ymmAttrCodeName") Year Make Model Attribute Code Name:
+          input.attribute-input(data-mz-attribute='ymmAttrCodeName' name='ymmAttrCodeName')
+        .row
+          label.attribute-label(for="ymmAttrFQN") Year Make Model Attribute FQN Name:
+          input.attribute-input(data-mz-attribute='ymmAttrFQN' name='ymmAttrFQN')
+      .attribute-row
+        h3 Year Make Model Data Input Attribute
+        .row
+          label.attribute-label(for="ymmAttrDataAdminName") Year Make Model Attribute Admin Name:
+          input.attribute-input(data-mz-attribute='ymmAttrDataAdminName' name='ymmAttrDataAdminName')
+        .row
+          label.attribute-label(for="ymmAttrDataCodeName") Year Make Model Attribute Code Name:
+          input.attribute-input(data-mz-attribute='ymmAttrDataCodeName' name='ymmAttrDataCodeName')
+        .row
+          label.attribute-label(for="ymmAttrDataFQN") Year Make Model Data Input Attribute Name:
+          input.attribute-input(data-mz-attribute='ymmAttrDataFQN' name='ymmAttrDataFQN')
+  .tab-second-column
+    .mzdb-config
+      h2 MZDB Configuration
+      .mzdb-row
+        h3 Entity List Names
+        .row
+          label.mzdb-label(for="yearEntityList") Year Entity List Name:
+          input.mzdb-input(data-mz-mzdbList="yearEntityList" name="yearEntityList")
+        .row
+          label.mzdb-label(for="yearMakeEntityList") Year Make Entity List Name:
+          input.mzdb-input(data-mz-mzdbList="yearMakeEntityList" name="yearMakeEntityList")
+        .row
+          label.mzdb-label(for="yearMakeModelEntityList") Year Make Model Entity List Name:
+          input.mzdb-input(data-mz-mzdbList="yearMakeModelEntityList" name="yearMakeModelEntityList")
+      .mzdb-row
+        h3 Application Namespace
+        .row
+          label.mzdb-label(for="appNamespace") Application Namespace:
+          input.mzdb-input(data-mz-mzdbList="appNamespace" name="appNamespace")
+  .tab-first-column
+    .subnav-config
+      h2 Subnav Link Configuration
+      .row
+        label.subnav-label(for="path") Subnav Path:
+        input.subnav-input(data-mz-subnav="path" name="path")
+      .row
+        label.subnav-label(for="href") Subnav Href:
+        input.subnav-input(data-mz-subnav="href" name="href")
+      .row
+        label.subnav-label(for="modalWindowTitle") Subnav Modal Window Title:
+        input.subnav-input(data-mz-subnav="modalWindowTitle" name="modalWindowTitle")
+    

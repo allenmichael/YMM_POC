@@ -242,7 +242,7 @@ function filterAndBuildAttributesOnProduct() {
 function updateProduct() {
   console.log(allYmmValuesFromData);
   let attributesToAddToProduct = filterAndBuildAttributesOnProduct();
-  productPropertyResource.getProperty({ productCode, ymmAttributeFQN })
+  return productPropertyResource.getProperty({ productCode, ymmAttributeFQN })
     .then((property) => {
       console.log(property);
 
@@ -274,8 +274,6 @@ function updateProduct() {
     .then((result) => {
       console.log(result);
     });
-  console.log("Attribute to add to Product");
-  console.log(attributesToAddToProduct);
 };
 
 function buildProductAttrVocabValues(values) {
@@ -318,26 +316,22 @@ function buildProductAttrOnProduct(attributes) {
 let Sync = function() { };
 
 Sync.prototype.updateAttributeProductTypeAndProduct = function(YmmValuesFromPost, ProductDataFromPost) {
-  return new Promise((resolve, reject) => {
-    console.log("Starting Sync Process...");
-    allYmmValuesFromData = YmmValuesFromPost;
-    cachedProduct = ProductDataFromPost;
-    productCode = ProductDataFromPost.productCode;
+  console.log("Starting Sync Process...");
+  allYmmValuesFromData = YmmValuesFromPost;
+  cachedProduct = ProductDataFromPost;
+  productCode = ProductDataFromPost.productCode;
 
-    checkExistingAttributeValuesOnAttribute()
-      .then(updateProductAttribute)
-      .then(retrieveProductTypeId)
-      .then(cacheAttributeVocabularyValues)
-      .then(checkExistingAttributeValuesOnProductType)
-      .then(updateProductType)
-      .then(cacheAttributeVocabularyValues)
-      .then(updateProduct)
-      .then(resolve())
-      .catch((err) => {
-        console.error(err);
-        reject(err);
-      });
-  });
+  return checkExistingAttributeValuesOnAttribute()
+    .then(updateProductAttribute)
+    .then(retrieveProductTypeId)
+    .then(cacheAttributeVocabularyValues)
+    .then(checkExistingAttributeValuesOnProductType)
+    .then(updateProductType)
+    .then(cacheAttributeVocabularyValues)
+    .then(updateProduct)
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 module.exports = new Sync();

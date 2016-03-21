@@ -24,8 +24,8 @@ const Config = {
     }
   },
   "SUBNAVLINK": {
-    "PATH": ["Sync Year Make Model Data"],
-    "HREF": "https://1df0da74.ngrok.io/mozu.events",
+    "PATH": ["YMM App","Sync Year Make Model Data"],
+    "HREF": "https://1df0da74.ngrok.io/subnav",
     "MODALWINDOWTITLE": "Sync Year Make Model Data",
     "SUBNAVLINKFQN": "subnavlinks@mozu"
   }

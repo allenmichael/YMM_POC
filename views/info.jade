@@ -1,0 +1,17 @@
+.row
+  .tab-first-column
+    p [Placeholder for App Info]        
+    label.tab-field-label namespace : 
+    div(data-bind='appInfo.nameSpace', style='margin-bottom:5px;')
+    label.tab-field-label Dev Center Version
+    div(data-bind='appInfo.version', style='margin-bottom:5px;')
+    label.tab-field-label Dev Center Package
+    div(data-bind='appInfo.package', style='margin-bottom:5px;')
+  .tab-second-column
+    .well-info.text-center
+      div [Placeholder for app image]         
+      .mozulogo(style='font-size: 15px; font-weight: bold; color: #333333; line-height:17px;') [App]  by
+      div(style='font-size: 12px; color: #333333; line-height:15px;') App 
+        span(data-bind='appVersion')
+      div(style='font-size: 12px; color: #333333; line-height:15px;') Mozu API 
+        span(data-bind='apiVersion')
