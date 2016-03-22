@@ -2,7 +2,7 @@
 
 //Utilities and Models
 const _ = require('underscore');
-const Config = require('./Config');
+const Config = require('./contracts/Config');
 
 //Mozu Node SDK setup
 const FiddlerProxy = require('mozu-node-sdk/plugins/fiddler-proxy');

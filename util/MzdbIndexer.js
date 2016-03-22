@@ -2,9 +2,9 @@
 
 //Utilities and Models
 const _ = require('underscore');
-const Config = require('./Config');
-let EntityLists = require('./EntityLists');
-let Entities = require('./Entities');
+const Config = require('./contracts/Config');
+let EntityLists = require('./contracts/EntityLists');
+let Entities = require('./contracts/Entities');
 
 //Mozu Node SDK setup
 const FiddlerProxy = require('mozu-node-sdk/plugins/fiddler-proxy');

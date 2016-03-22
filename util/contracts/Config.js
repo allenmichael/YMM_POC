@@ -15,17 +15,17 @@ const Config = {
     "YMMCSV": {
       "ADMINNAME": "YMM-CSV",
       "ATTRIBUTECODE": "ymm-csv",
-      "ATTRIBUTEFQN": "Grobelny~ymm-csv"
+      "ATTRIBUTEFQN": "tenant~ymm-csv"
     },
     "YEARMAKEMODEL": {
       "ADMINNAME": "Year Make Model",
       "ATTRIBUTECODE": "year-make-model",
-      "ATTRIBUTEFQN": "Grobelny~year-make-model"
+      "ATTRIBUTEFQN": "tenant~year-make-model"
     }
   },
   "SUBNAVLINK": {
-    "PATH": ["YMM App","Sync Year Make Model Data"],
-    "HREF": "https://1df0da74.ngrok.io/subnav",
+    "PATH": ["Sync Year Make Model Data"],
+    "HREF": "https://6264f47c.ngrok.io/subnav",
     "MODALWINDOWTITLE": "Sync Year Make Model Data",
     "SUBNAVLINKFQN": "subnavlinks@mozu"
   }

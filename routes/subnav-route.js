@@ -3,11 +3,12 @@ var express = require('express');
 var router = express.Router();
 var apiContext = require('mozu-node-sdk/clients/platform/application')();
 var isRequestValid = require('mozu-node-sdk/security/is-request-valid');
-var transformContext = require('../util/transform-apiContext');
+var transformContext = require('../util/routing/transform-apiContext');
 var ProductAdminResourceFactory = require('mozu-node-sdk/clients/commerce/catalog/admin/product');
 var CONSTANTS = require('mozu-node-sdk/constants');
 var HEADERPREFIX = CONSTANTS.headerPrefix;
 var HEADERS = CONSTANTS.headers;
+var CONFIG = require('../util/contracts/Config');
 
 /* GET /mozu.events  */
 router.get('/', function(req, res, next) {
@@ -36,6 +37,7 @@ router.use(function(req, res, next) {
 
 /* POST against /mozu.events */
 router.post('/', function(req, res, next) {
+  console.log(CONFIG.ATTRIBUTES.YEARMAKEMODEL.ATTRIBUTEFQN);
   console.log("Is Product Edit Page? " + (req.mozu.isProductPage ? "\u2713" : "x"));
   console.log("Is Valid? " + (req.mozu.isValid ? "\u2713" : "x"));
   console.log(`Product Code: ${req.mozu.productCode}`);

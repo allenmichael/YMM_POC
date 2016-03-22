@@ -3,8 +3,9 @@ var express = require('express');
 var router = express.Router();
 var apiContext = require('mozu-node-sdk/clients/platform/application')();
 var isRequestValid = require('mozu-node-sdk/security/is-request-valid');
-var transformContext = require('../util/transform-apiContext');
-var EVENTNAMES = require('../util/event-names');
+var transformContext = require('../util/routing/transform-apiContext');
+var EVENTNAMES = require('../util/routing/event-names');
+var Installer = require('../util/Installer');
 
 //Mozu Validation Middleware
 router.use(function(req, res, next) {
@@ -23,6 +24,7 @@ router.use(function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.log("Is Valid? " + (req.mozu.isValid ? "\u2713" : "x"));
   if (req.mozu.isValid && req.body.topic === EVENTNAMES.APPLICATIONINSTALLED) {
+    Installer.install();
     res.sendStatus(200);
     console.log("Application Installed Fired...");
   } else if (req.mozu.isValid && req.body.topic === EVENTNAMES.APPLICATIONUPGRADED) {

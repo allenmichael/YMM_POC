@@ -32,7 +32,7 @@
     })
       .done(function(msg) {
         alert(msg);
-      })
+      });
   });
 
   function transformCsv(values) {
