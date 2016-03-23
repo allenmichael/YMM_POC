@@ -1,6 +1,6 @@
 (function() {
   var productData = JSON.parse($('#productData').val());
-  var dataAttributeField = "Grobelny~ymm-csv";
+  var dataAttributeField = "tenant~ymm-csv";
   var filteredProperty;
   var ymmValues = [];
 
@@ -24,7 +24,6 @@
 
   $('#sync').click(function(e) {
     e.preventDefault();
-    console.log("Hello again...");
     $.ajax({
       method: "POST",
       url: "/sync.ymm",

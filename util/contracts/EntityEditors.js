@@ -1,3 +1,5 @@
+const Config = require('./Config');
+
 module.exports = {
   Year: {
     "documentTypeFQN": "entityEditor@mozu",

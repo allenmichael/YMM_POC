@@ -12,7 +12,7 @@ var CONFIG = require('../util/contracts/Config');
 
 /* GET /mozu.events  */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Eventing', model: "Hello!" });
+  res.render('subnav', { title: 'Eventing', model: "Hello!" });
 });
 
 //Mozu Validation Middleware
@@ -50,10 +50,10 @@ router.post('/', function(req, res, next) {
     productResource.getProduct({ productCode: req.mozu.productCode })
       .then(function(product) {
         console.log("Retrieved Product Info");
-        res.render('index', { model: req.body, product: product, title: "Sync YMM Data" });
+        res.render('subnav', { model: req.body, product: product, title: "Sync YMM Data" });
       });
   } else {
-    res.render('index', { model: req.body });
+    res.render('subnav', { model: req.body });
   }
 });
 

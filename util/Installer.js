@@ -7,7 +7,7 @@ const _ = require('underscore');
 const Config = require('./contracts/Config');
 const Attributes = require('./contracts/Attributes');
 const EntityLists = require('./contracts/EntityLists');
-const EntityEditors = require('./contract/EntityEditors');
+const EntityEditors = require('./contracts/EntityEditors');
 const Entities = require('./contracts/Entities');
 let SubnavLink = require('./contracts/SubnavLink');
 
