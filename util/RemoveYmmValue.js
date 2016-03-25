@@ -64,7 +64,7 @@ function removePropertyValueFromProductType() {
         }
       });
       if (update) {
-        return productTypePropertyResource.updateProperty({ attributeFQN: Config.ATTRIBUTES.YEARMAKEMODEL.ATTRIBUTEFQN, productTypeId: 1 }, { body: updatedProperty });
+        return productTypePropertyResource.updateProperty({ attributeFQN: Config.ATTRIBUTES.YEARMAKEMODEL.ATTRIBUTEFQN, productTypeId: productTypeId }, { body: updatedProperty });
       }
     });
 };

@@ -1,4 +1,6 @@
 (function() {
+  var ymmFile;
+
   function enableTabs() {
     $(".tabs a").click(function(e) {
       var tabElement = e.target.parentElement;
@@ -35,8 +37,31 @@
   }
 
   function registerHandlers() {
+    $('#submitYmmFile').click(function(e) {
+      e.preventDefault();
+      console.log(e);
+      console.log("Hello!");
+      ymmFile = $('#ymmFile').get(0).files[0];
 
+      console.log(ymmFile);
+      postYmmFile(ymmFile);
+    });
   };
+
+  function postYmmFile(ymmFile) {
+    var fd = new FormData();
+    fd.append("ymmFile", ymmFile);
+    $.ajax({
+      method: 'POST',
+      url: '/ymmfile',
+      data: fd, 
+      contentType: false,
+      processData: false
+    })
+      .done(function(msg) {
+        alert(msg);
+      });
+  }
 
   $(function() {
 

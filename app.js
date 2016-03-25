@@ -10,6 +10,7 @@ var subnav_route = require('./routes/subnav-route');
 var sync_ymm = require('./routes/sync-ymm');
 var reindex_mzdb = require('./routes/reindex-mzdb');
 var config_route = require('./routes/config-route');
+var post_ymm_file = require('./routes/post-ymm-file');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/subnav', subnav_route);
 app.use('/sync.ymm', sync_ymm);
 app.use('/reindex.mzdb', reindex_mzdb);
 app.use('/config', config_route);
+app.use('/ymmfile', post_ymm_file);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

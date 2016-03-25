@@ -8,7 +8,7 @@ module.exports = (apiContext, options) => {
   options.pageSize = options.pageSize || 200;
   options.startIndex = options.startIndex || 0;
   options.responseFields = options.responseFields || '';
-  options.filter = options.filter || "";
+  options.filter = options.filter || '';
   let totalCount = 0;
   let pageCount = 0;
   let allIndexes = {};
@@ -19,7 +19,7 @@ module.exports = (apiContext, options) => {
 
   const regexStartIndex = /startIndex=\d*/;
 
-  return productResource.getProducts({ pageSize: options.pageSize, startIndex: options.startIndex, responseFields: options.responseFields })
+  return productResource.getProducts({ pageSize: options.pageSize, startIndex: options.startIndex, filter: options.filter, responseFields: options.responseFields })
     .then((productsCollection) => {
       totalCount = productsCollection.totalCount;
       pageCount = productsCollection.pageCount;
@@ -58,7 +58,6 @@ module.exports = (apiContext, options) => {
 
       return Promise.all(promiseArr)
         .then(() => {
-          _.each(allIndexes, (val, key) => { if (val === false) console.log(key); });
           let result = {
             indexes: allIndexes,
             products: allProducts,

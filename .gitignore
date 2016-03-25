@@ -12,3 +12,4 @@ mozu.config
 test/fixtures/*.js
 typings/
 typings/*
+uploads/
