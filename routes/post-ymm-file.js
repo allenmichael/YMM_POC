@@ -1,18 +1,24 @@
 var express = require('express');
 var router = express.Router();
-var SyncFactory = require('../util/Sync');
-var xlsx = require('xlsx');
+var ImporterFactory = require('../util/Importer');
 var multer = require('multer');
 var _ = require('underscore');
+var fs = require('fs');
 
-router.post('/', multer({ dest: './uploads/'}).single('ymmFile'), function(req, res, next) {
+router.post('/', multer({ dest: './uploads/' }).single('ymmFile'), function(req, res, next) {
   console.log(req.file);
   console.log(req.body);
-  var ymmWorkbook = xlsx.readFile(req.file.path);
-  var ymmData = ymmWorkbook.Sheets[_.first(ymmWorkbook.SheetNames)];
-  var bulkYmmDataObject = xlsx.utils.sheet_to_json(ymmData);
-  console.log(bulkYmmDataObject);
-  res.send('You posted to the Ymm File Route');
+  var Importer = new ImporterFactory(req.file.path);
+  Importer.import()
+    .then(function() {
+      fs.unlinkSync(req.file.path);
+      res.send('Finished importing your data.');
+    })
+    .catch(function(err) {
+      console.log("There was an error importing your file.");
+      console.error(err);
+    });
+
 });
 
 module.exports = router;

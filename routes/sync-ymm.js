@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var SyncFactory = require('../util/Sync');
-var MzdbIndexer = require('../util/MzdbIndexer');
+var MzdbIndexerFactory = require('../util/MzdbIndexer');
 
 router.post('/', function(req, res, next) {
   console.log(req.body);
@@ -10,7 +10,8 @@ router.post('/', function(req, res, next) {
     var Sync = new SyncFactory(req.body.values, req.body.product);
     Sync.updateAttributeProductTypeAndProduct()
       .then(() => {
-        return MzdbIndexer.updateMzdb(req.body.values);
+        var MzdbIndexer = MzdbIndexerFactory(req.body.values);
+        return MzdbIndexer.updateMzdb();
       })
       .then(() => {
         res.send(`Successfully updated YMM`);

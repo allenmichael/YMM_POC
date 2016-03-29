@@ -20,6 +20,7 @@ const applicationSettingsResource = require('mozu-node-sdk/clients/commerce/sett
 const entityContainerResource = require('mozu-node-sdk/clients/platform/entitylists/entityContainer')(apiContext);
 const entityListResource = require('mozu-node-sdk/clients/platform/entityList')(apiContext);
 const entityResource = require('mozu-node-sdk/clients/platform/entitylists/entity')(apiContext);
+const documentResource = require('mozu-node-sdk/clients/content/documentlists/document')(apiContext);
 
 let yearMakeModelAttribute;
 let baseProductTypeId;
@@ -39,7 +40,8 @@ function createAttributes() {
         {body: 
           {
             attributeFQN: yearMakeModelAttribute.attributeFQN,
-            order: ++order
+            order: ++order,
+            isMultiValueProperty: true
           }
         });
     })
@@ -59,7 +61,11 @@ function createSubnavLink() {
       return entityContainerResource.getEntityContainers({ entityListFullName: Config.SUBNAVLINK.SUBNAVLINKFQN, pageSize: 200 });
     })
     .then((entityCollection) => {
+      if(_.first(entityCollection.items) && (_.first(entityCollection.items).item.modalWindowTitle === Config.SUBNAVLINK.MODALWINDOWTITLE)) { 
+        return null; 
+      } else {
       return entityResource.insertEntity({ entityListFullName: Config.SUBNAVLINK.SUBNAVLINKFQN }, { body: SubnavLink });
+      }
     })
     .catch((err) => {
       console.error("An error occurred...");

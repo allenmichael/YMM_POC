@@ -1,23 +1,22 @@
 'use strict';
-
-//Utilities and Models
-const _ = require('underscore');
-const Config = require('./contracts/Config');
-
-//Mozu Node SDK setup
-const FiddlerProxy = require('mozu-node-sdk/plugins/fiddler-proxy');
-let apiContext = require('mozu-node-sdk/clients/platform/application')();
-apiContext.plugins = [FiddlerProxy()];
-
-//Mozu Node SDK Resources
-const productResource = require('mozu-node-sdk/clients/commerce/catalog/admin/product')(apiContext);
-const productPropertyResource = require('mozu-node-sdk/clients/commerce/catalog/admin/products/productProperty')(apiContext);
-const productTypeResource = require('mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/productType')(apiContext);
-const productTypePropertyResource = require("mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/producttypes/productTypeProperty")(apiContext);
-const productAttributeResource = require('mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/attribute')(apiContext);
-const productAttributeVocabValueResource = require('mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/attributes/attributeVocabularyValue')(apiContext);
-
 let Sync = function(YmmValuesFromPost, ProductData) {
+  //Utilities and Models
+  const _ = require('underscore');
+  const Config = require('./contracts/Config');
+
+  //Mozu Node SDK setup
+  const FiddlerProxy = require('mozu-node-sdk/plugins/fiddler-proxy');
+  let apiContext = require('mozu-node-sdk/clients/platform/application')();
+  apiContext.plugins = [FiddlerProxy()];
+
+  //Mozu Node SDK Resources
+  const productResource = require('mozu-node-sdk/clients/commerce/catalog/admin/product')(apiContext);
+  const productPropertyResource = require('mozu-node-sdk/clients/commerce/catalog/admin/products/productProperty')(apiContext);
+  const productTypeResource = require('mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/productType')(apiContext);
+  const productTypePropertyResource = require("mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/producttypes/productTypeProperty")(apiContext);
+  const productAttributeResource = require('mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/attribute')(apiContext);
+  const productAttributeVocabValueResource = require('mozu-node-sdk/clients/commerce/catalog/admin/attributedefinition/attributes/attributeVocabularyValue')(apiContext);
+
   //Initialized variables used with Attribute, Product Type, and Product Sync
   let productCode = (ProductData) ? ProductData.productCode || ProductData : '';
   let allYmmValuesFromData = YmmValuesFromPost;
@@ -40,7 +39,7 @@ let Sync = function(YmmValuesFromPost, ProductData) {
    * Verifies that the data returned from dataAttributeField does not already exist on the Product Attribute.  
    * @returns {Promise<Boolean>} hasNewValues - Identifies if there are new values to add to the Product Attribute.
    */
-  let checkExistingAttributeValuesOnAttribute = function() {
+  function checkExistingAttributeValuesOnAttribute() {
     let hasNewValues = false;
     let existingYmmValuesOnAttribute = [];
     //Pull in existing values on the Product Attribute.

@@ -17,8 +17,8 @@
       $('#ymmData > ul').append('<li>' + value + '</li>');
     });
     $('#ymmData > ul > li').append('</ul>');
-  } else if (filteredProperty.length === 1 && filteredProperty[0].values.length === 0) {
-    $('#ymmData').append('<p>No Year Make Model values present.</p>');
+  } else {
+    $('#ymmData').append('<p>No Year Make Model values present in YMM CSV field.</p>');
     $('#sync').prop("disabled", true);
   }
 

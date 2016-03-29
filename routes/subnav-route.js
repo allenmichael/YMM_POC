@@ -44,7 +44,8 @@ router.post('/', function(req, res, next) {
   console.log(req.body);
   if (req.mozu.productCode && req.mozu.isValid) {
     console.log(req.body[HEADERPREFIX + HEADERS.MASTERCATALOG]);
-    apiContext.context["master-catalog"] = req.body[HEADERPREFIX + HEADERS.MASTERCATALOG];
+    apiContext.context[HEADERS.MASTERCATALOG] = req.body[HEADERPREFIX + HEADERS.MASTERCATALOG];
+    apiContext.context[HEADERS.TENANT] = req.body[HEADERPREFIX + HEADERS.TENANT];
     var productResource = ProductAdminResourceFactory(apiContext);
     console.log("Preparing to get Product info...");
     productResource.getProduct({ productCode: req.mozu.productCode })
@@ -53,7 +54,8 @@ router.post('/', function(req, res, next) {
         res.render('subnav', { model: req.body, product: product, title: "Sync YMM Data" });
       });
   } else {
-    res.render('subnav', { model: req.body });
+    var notAuthorizedOrMissingProductCode = new Error("There was a problem with authorization or retrieving this product");
+    res.render('error', { message: notAuthorizedOrMissingProductCode.message, error: notAuthorizedOrMissingProductCode });
   }
 });
 
