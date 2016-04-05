@@ -25,7 +25,7 @@ const Config = {
   },
   "SUBNAVLINK": {
     "PATH": ["Sync Year Make Model Data"],
-    "HREF": "https://872d732e.ngrok.io/subnav",
+    "HREF": "https://8fbbd3dc.ngrok.io/subnav",
     "MODALWINDOWTITLE": "Sync Year Make Model Data",
     "SUBNAVLINKFQN": "subnavlinks@mozu"
   }

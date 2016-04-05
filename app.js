@@ -9,6 +9,7 @@ var install_route = require('./routes/install-route');
 var subnav_route = require('./routes/subnav-route');
 var sync_ymm = require('./routes/sync-ymm');
 var reindex_mzdb = require('./routes/reindex-mzdb');
+var delete_attr = require('./routes/delete-attr');
 var config_route = require('./routes/config-route');
 var post_ymm_file = require('./routes/post-ymm-file');
 
@@ -30,6 +31,7 @@ app.use('/install', install_route);
 app.use('/subnav', subnav_route);
 app.use('/sync.ymm', sync_ymm);
 app.use('/reindex.mzdb', reindex_mzdb);
+app.use('/delete.attr', delete_attr);
 app.use('/config', config_route);
 app.use('/ymmfile', post_ymm_file);
 

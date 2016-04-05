@@ -8,18 +8,18 @@ block content
       .tab-container      
         .tabs
           a.button.tab.active(data-tab-id='infoTab', data-toggle='tab') Info
-          a.button.tab(data-tab-id='config', data-toggle='tab') Configuration
-          a.button.tab(data-tab-id='reindexMzdb', data-toggle='tab') Reindex MZDB Entity Lists
           a.button.tab(data-tab-id='importYmmData', data-toggle='tab') Import Year Make Model Data
+          a.button.tab(data-tab-id='deleteAttrTab', data-toggle='tab') Delete Year Make Model Values
+          a.button.tab(data-tab-id='reindexMzdb', data-toggle='tab') Reindex MZDB Entity Lists
         .tab-view
           #infoTab.tab-section
             include ./info.jade
-          #config.tab-section(style='display: none')
-            include ./config-form.jade
-          #reindexMzdb.tab-section(style='display: none')
-            include ./reindex-mzdb.jade
           #importYmmData.tab-section(style='display: none')
             include ./import-ymm-data.jade
+          #deleteAttrTab.tab-section(style='display: none')
+            include ./delete-attr.jade
+          #reindexMzdb.tab-section(style='display: none')
+            include ./reindex-mzdb.jade
         .branding-text Developed by Volusion, Inc. All rights reserved.
 block additionalJavascript        
   script(src='/javascripts/config-page.js')
