@@ -31,7 +31,7 @@ app.use('/install', install_route);
 app.use('/subnav', subnav_route);
 app.use('/sync.ymm', sync_ymm);
 app.use('/reindex.mzdb', reindex_mzdb);
-app.use('/delete.attr', delete_attr);
+app.use('/delete', delete_attr);
 app.use('/config', config_route);
 app.use('/ymmfile', post_ymm_file);
 

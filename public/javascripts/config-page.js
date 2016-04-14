@@ -50,8 +50,9 @@
     
     //Delete Year Make Model Values Attribute List Handler 
     $('a[data-tab-id=deleteAttrTab]').click(function(e) {
+      removeAttributeList();
       $.ajax({
-        url: "/delete.attr",
+        url: "/delete",
       })
         .done(function(msg) {
           $('#attributes').append('<ul id="attributeList">');
@@ -63,14 +64,14 @@
           $('#deleteAttribute').click(function(e) {
             $.ajax({
               method: "POST",
-              url: "/delete.attr",
+              url: "/delete",
               data: { attributeNameValues: attributeNameValues, attributeDataValues: attributeDataValues }
             })
               .done(function(msg) {
                 alert(msg);
                 $('#attributeList > li').remove();
                 $.ajax({
-                  url: "/delete.attr"
+                  url: "/delete"
                 })
                   .done(function(msg) {
                     populateAttributeList(msg);
@@ -97,6 +98,12 @@
         }
       })
     });
+  }
+  
+  function removeAttributeList() {
+    $('#attributeList > li').remove();
+    $('#attributeList').remove();
+    $('#deleteAttribute').remove();
   }
   
   //Utility function for Import Year Make Model Data

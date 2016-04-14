@@ -13,6 +13,7 @@ module.exports = {
     "isVisibleInStorefront": true,
     "name": Config.MZDB.YEAR,
     "nameSpace": Config.NAMESPACE,
+    "usages": ["entityManager"],
     "useSystemAssignedId": false
   },
   YearMake: {
@@ -30,6 +31,7 @@ module.exports = {
     "isVisibleInStorefront": true,
     "name": Config.MZDB.YEARMAKE,
     "nameSpace": Config.NAMESPACE,
+    "usages": ["entityManager"],
     "useSystemAssignedId": false
   },
   YearMakeModel: {
@@ -47,6 +49,7 @@ module.exports = {
     "isVisibleInStorefront": true,
     "name": Config.MZDB.YEARMAKEMODEL,
     "nameSpace": Config.NAMESPACE,
+    "usages": ["entityManager"],
     "useSystemAssignedId": false
   }
 };

@@ -31,7 +31,8 @@ router.use(function(req, res, next) {
 router.use(function(req, res, next) {
   var url = req.body['x-vol-return-url'];
   req.mozu.isProductPage = /(products\/edit)/g.exec(url) ? true : false;
-  req.mozu.productCode = _.last(url.split(_.first(/https?:\/\/.+?(?:edit\/)/g.exec(url))));
+  var tempUrl = _.last(url.split(_.first(/https?:\/\/.+?(?:edit\/)/g.exec(url))));
+  req.mozu.productCode = (tempUrl.indexOf('?') >= 0) ? _.first(tempUrl.split('?')) : tempUrl;
   next();
 });
 
